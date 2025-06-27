@@ -1,0 +1,42 @@
+name: Daily YouTube Video Uploader
+
+on:
+  schedule:
+    # Har 2 din baad subah 10:00 AM IST (04:30 AM UTC)
+    - cron: '30 4 */2 * *'
+
+  workflow_dispatch: # Manual run ka option
+
+jobs:
+  upload-video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cloudinary google-api-python-client google-auth-oauthlib google-auth-httplib2 requests google-auth
+
+      - name: Create client_secret.json from Secret
+        env:
+          GOOGLE_CLIENT_SECRETS_CONTENT: ${{ secrets.GOOGLE_CLIENT_SECRETS }}
+        run: |
+          echo "$GOOGLE_CLIENT_SECRETS_CONTENT" > client_secret.json
+          ls -l client_secret.json
+
+      - name: Run YouTube Uploader Script
+        env:
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        run: |
+          python youtube_uploader.py
