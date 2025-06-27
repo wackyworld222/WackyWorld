@@ -101,11 +101,11 @@ def upload_video_to_youtube(youtube_service, video_file_path, title, description
 
 def main():
     try:
-        print("Fetching Cloudinary videos from 'RonaldoFC/'...")
+        print("Fetching Cloudinary videos from '/'...")
         result = cloudinary.api.resources(
             type='upload',
             resource_type='video',
-            prefix='RonaldoFC/',
+            prefix='WackyWorld/',
             max_results=500
         )
 
