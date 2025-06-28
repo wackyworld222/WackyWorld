@@ -85,7 +85,7 @@ def upload_video_to_youtube(youtube_service, video_file_path, title, description
             "categoryId": "28"
         },
         "status": {
-            "privacyStatus": "private"
+            "privacyStatus": "public"
         }
     }
 
