@@ -82,7 +82,7 @@ def upload_video_to_youtube(youtube_service, video_file_path, title, description
             "title": title,
             "description": description,
             "tags": tags,
-            "categoryId": "28"  # Science & Technology
+            "categoryId": "28"
         },
         "status": {
             "privacyStatus": "private"
@@ -98,11 +98,10 @@ def upload_video_to_youtube(youtube_service, video_file_path, title, description
     response = insert_request.execute()
     print("Upload complete.")
     print(f"YouTube URL: https://www.youtube.com/watch?v={response.get('id')}")
-    return response.get('id')
 
 def main():
     try:
-        print("Fetching Cloudinary videos from 'WackyWorld/'...")
+        print("Fetching Cloudinary videos from '/'...")
         result = cloudinary.api.resources(
             type='upload',
             resource_type='video',
@@ -146,7 +145,7 @@ def main():
             "Disclaimer: I do not claim ownership of the original video content. This video is intended for informational and "
             "educational purposes only. Credit for the original video content goes to the respective creators.\n\n"
             "--- Searching Tags --- \n"
-            "#ChinaTech #Technology #Innovation #Facts #Knowledge #AI #QuantumComputing #ChineseInnovation "
+            "#ChinaTech #Technology #Innovation #Facts #Knowledge #AI #QuantumComputing #SpaceExploration #ChineseInnovation "
             "#TechNews #FutureTech #GlobalTech #ScienceFacts #EmergingTech #Robotics #BigData #SmartCities #Shenzhen "
             "#TechInsights #EducationalContent"
         )
@@ -164,6 +163,12 @@ def main():
 
         os.remove(local_video_filename)
         print(f"Deleted local file: {local_video_filename}")
+
+        try:
+            cloudinary.api.delete_resources([video_public_id], resource_type='video')
+            print(f"Deleted from Cloudinary: {video_public_id}")
+        except Exception as e:
+            print(f"Error deleting Cloudinary video: {e}")
 
     except Exception as e:
         print(f"Error: {e}")
