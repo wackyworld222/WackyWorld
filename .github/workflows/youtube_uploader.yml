@@ -3,7 +3,7 @@ name: Daily YouTube Video Uploader
 on:
   schedule:
     # Har 2 din baad subah 10:00 AM IST (04:30 AM UTC)
-    - cron: '30 4 */2 * *'
+    - cron: '30 4 * * *' # Har din subah 10:00 AM IST par chalega
 
   workflow_dispatch: # Manual run ka option
 
